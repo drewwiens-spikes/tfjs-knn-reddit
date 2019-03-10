@@ -1,0 +1,7 @@
+<label>
+  Title<br>
+  <input type="text" [formControl]="control">
+</label>
+<p>
+  {{ predicted | async | json }}
+</p>
