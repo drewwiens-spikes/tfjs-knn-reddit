@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
-import { filter, switchMap, map, catchError, debounceTime, tap } from 'rxjs/operators';
+import { filter, switchMap, map, catchError, debounceTime, tap, distinctUntilChanged } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { of, Observable } from 'rxjs';
-
-const mapping = [
-  'AskReddit', 'funny', 'gaming', 'IAmA', 'linux', 'pics',
-  'science', 'todayilearned', 'videos', 'worldnews'
-];
+import { of, BehaviorSubject, Subject, merge } from 'rxjs';
+import { random } from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -16,17 +12,34 @@ const mapping = [
 })
 export class AppComponent {
   control = new FormControl('', Validators.required);
-  predicted: Observable<any>;
-  constructor(http: HttpClient) {
-    this.predicted = this.control.valueChanges.pipe(
+  labels = [
+    'AskReddit', 'funny', 'gaming', 'IAmA', 'linux', 'pics',
+    'science', 'todayilearned', 'videos', 'worldnews'
+  ];
+  predicted = new BehaviorSubject<string>('app___loaded');
+  private titleToPost = new Subject<string>();
+  constructor(private http: HttpClient) {
+    this.control.valueChanges.pipe(
+      tap(() => this.predicted.next('')),
       debounceTime(1000),
       filter(() => this.control.valid),
-      tap(value => console.log('VALUE:', value)),
-      switchMap(value => http.post('http://localhost:3000/', { value }).pipe(
+    ).subscribe(this.titleToPost);
+    this.titleToPost.pipe(
+      distinctUntilChanged(),
+      switchMap(value => merge(of(''), http.post('http://localhost:3000/', { value }).pipe(
         tap(retval => console.log('RETval:', retval)),
-        map((idx: any) => mapping[idx.classIndex]),
-        catchError(err => of(`Error reaching server: ${JSON.stringify(err)}`)),
-      )),
-    );
+        map((idx: any) => this.labels[idx.classIndex]),
+        catchError(() => of('Error reaching server')),
+      ))),
+    ).subscribe(this.predicted);
+  }
+  useRandomTitleFrom(subreddit: string) {
+    this.predicted.next('');
+    this.http.get(`https://www.reddit.com/r/${subreddit}.json`).subscribe((json: any) => {
+      const titles = json.data.children.map(itm => itm.data.title);
+      const title = titles[random(0, titles.length - 1)];
+      this.control.setValue(title);
+      this.titleToPost.next(title);
+    });
   }
 }

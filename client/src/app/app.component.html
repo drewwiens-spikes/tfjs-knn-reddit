@@ -1,7 +1,25 @@
-<label>
-  Title<br>
-  <input type="text" [formControl]="control">
-</label>
-<p>
-  {{ predicted | async | json }}
-</p>
+<div>
+  <mat-card class="main">
+    <mat-card-title>Guess That Subreddit</mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Post Title" [formControl]="control">
+        <mat-error>Please enter a title</mat-error>
+      </mat-form-field>
+      <mat-divider></mat-divider>
+      <div class="prediction" [ngSwitch]="predicted | async">
+        <mat-progress-bar mode="indeterminate" *ngSwitchCase="''"></mat-progress-bar>
+        <p *ngSwitchCase="'app___loaded'">Enter a title</p>
+        <h1 *ngSwitchDefault>{{ predicted | async }}</h1>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="buttons">
+        <button mat-stroked-button *ngFor="let label of labels" (click)="useRandomTitleFrom(label)">{{ label }}</button>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+
+  <div class="options">
+  </div>
+</div>

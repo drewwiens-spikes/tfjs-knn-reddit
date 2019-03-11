@@ -13,12 +13,10 @@ const bodyParser = require('body-parser');
   const model = await use.load();
 
   // Add titles to KNN classifier:
-  process.stdout.write('Adding titles to classifier');
-  require('./data/encoded.json').forEach(([label, row]) => {
-    process.stdout.write('' + label);
+  console.log('Loading encoded titles...');
+  require('./encoded.json').forEach(([label, row]) => {
     classifier.addExample(tf.tensor1d(row), label);
   });
-  process.stdout.write('\n\n');
 
   // Start server:
   const port = 3000;

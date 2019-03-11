@@ -1,3 +1,54 @@
-label {
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+// .options {
+//   margin: 30px 5px 0 5px;
+// }
+
+.main {
+  margin: 30px 0 10px 0;
+  width: 640px;
+}
+
+.options {
+  width: 640px;
+}
+
+h1 {
+  color: orangered;
+}
+
+.prediction {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}
+
+.buttons {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
   display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  margin: 10px 5px 0 5px;
+}
+
+mat-card-title {
+  text-align: center;
 }

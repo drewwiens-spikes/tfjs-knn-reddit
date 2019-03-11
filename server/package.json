@@ -5,16 +5,19 @@
   "author": "Andrew Wiens",
   "license": "MIT",
   "dependencies": {
-    "@tensorflow-models/knn-classifier": "^1.0.0",
-    "@tensorflow-models/universal-sentence-encoder": "^1.0.1",
-    "@tensorflow/tfjs": "^1.0.0",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "node-fetch": "^2.3.0"
+    "@tensorflow-models/knn-classifier": "1.0.0",
+    "@tensorflow-models/universal-sentence-encoder": "1.0.1",
+    "@tensorflow/tfjs": "1.0.0",
+    "body-parser": "1.18.3",
+    "cors": "2.8.5",
+    "express": "4.16.4",
+    "lodash": "4.17.11",
+    "node-fetch": "2.3.0",
+    "request": "2.88.0",
+    "request-promise-native": "1.0.7"
   },
   "scripts": {
     "start": "node .",
-    "encode": "node ./data/encode.js"
+    "encode": "node ./encode.js"
   }
 }
