@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 
 const mapping = [
-  'announcements', 'AskReddit', 'funny', 'gaming', 'IAmA', 'linux',
-  'pics', 'science', 'todayilearned', 'videos', 'worldnews'
+  'AskReddit', 'funny', 'gaming', 'IAmA', 'linux', 'pics',
+  'science', 'todayilearned', 'videos', 'worldnews'
 ];
 
 @Component({
