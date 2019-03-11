@@ -26,7 +26,7 @@ export class AppComponent {
     ).subscribe(this.titleToPost);
     this.titleToPost.pipe(
       distinctUntilChanged(),
-      switchMap(value => merge(of(''), http.post('http://localhost:3000/', { value }).pipe(
+      switchMap(value => merge(of('___loading___'), http.post('http://localhost:3000/', { value }).pipe(
         tap(retval => console.log('RETval:', retval)),
         map((idx: any) => this.labels[idx.classIndex]),
         catchError(() => of('Error reaching server')),
@@ -34,7 +34,7 @@ export class AppComponent {
     ).subscribe(this.predicted);
   }
   useRandomTitleFrom(subreddit: string) {
-    this.predicted.next('');
+    this.predicted.next('___loading___');
     this.http.get(`https://www.reddit.com/r/${subreddit}.json`).subscribe((json: any) => {
       const titles = json.data.children.map(itm => itm.data.title);
       const title = titles[random(0, titles.length - 1)];

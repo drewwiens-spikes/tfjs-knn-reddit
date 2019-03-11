@@ -8,7 +8,7 @@
       </mat-form-field>
       <mat-divider></mat-divider>
       <div class="prediction" [ngSwitch]="predicted | async">
-        <mat-progress-bar mode="indeterminate" *ngSwitchCase="''"></mat-progress-bar>
+        <mat-progress-bar mode="indeterminate" *ngSwitchCase="'___loading___'"></mat-progress-bar>
         <p *ngSwitchCase="'app___loaded'">Enter a title</p>
         <h1 *ngSwitchDefault>{{ predicted | async }}</h1>
       </div>
